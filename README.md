@@ -3,41 +3,41 @@
 
 1）输出时加该的方法类和名称行数 
 
-   NSLog(@"%@__%s,%d",[NSString stringWithUTF8String:object_getClassName(self)],__FUNCTION__, __LINE__);
+    NSLog(@"%@__%s,%d",[NSString stringWithUTF8String:object_getClassName(self)],__FUNCTION__, __LINE__);
    
 2）怎么把tableview里cell的小对勾的颜色改成别的颜色？
 
-   tableView.tintColor = [UIColor redColor];
+    tableView.tintColor = [UIColor redColor];
    
 3）iOS8中UITableVIew分割线短的问题
 
-在iOS8中会发现分割线默认是没有全部显示的，在iOS7中适用的代码
+    在iOS8中会发现分割线默认是没有全部显示的，在iOS7中适用的代码
 
-if ([self.myCardTableView respondsToSelector:@selector(separatorInset)]) {
+   if ([self.myCardTableView respondsToSelector:@selector(separatorInset)]) {
         self.myCardTableView.separatorInset = UIEdgeInsetsZero;
     }
     
-已经不管用了。而要在viewDidLoad中加入已下代码
+   已经不管用了。而要在viewDidLoad中加入已下代码
 
-if ([self.myCardTableView respondsToSelector:@selector(setLayoutMargins:)]) {
+   if ([self.myCardTableView respondsToSelector:@selector(setLayoutMargins:)]) {
         
         [self.myCardTableView setLayoutMargins:UIEdgeInsetsZero];
         
     }
     
-并且加入UITableView的代理方法
+   并且加入UITableView的代理方法
 ￼
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        [cell setSeparatorInset:UIEdgeInsetsZero];
-    }
+   - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+   {
+      if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+          [cell setSeparatorInset:UIEdgeInsetsZero];
+      }
     
     if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
         [cell setLayoutMargins:UIEdgeInsetsZero];
     }
     
-}
+   }
 
 4）判断设备类型
 
@@ -74,11 +74,12 @@ if ([self.myCardTableView respondsToSelector:@selector(setLayoutMargins:)]) {
 
         NSLog(@"loaded iPad Storyboard");
     }
-    5）base64
+    
+5）base64
      
        http://stackoverflow.com/questions/392464/how-do-i-do-base64-encoding-on-iphone-sdk
        
-   6） 系统版本号
+6）系统版本号
    
        if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
         // here you go with iOS 7
@@ -86,11 +87,17 @@ if ([self.myCardTableView respondsToSelector:@selector(setLayoutMargins:)]) {
          
       NSString *versionString = [[UIDevice currentDevice] systemVersion];
         
-        http://stackoverflow.com/questions/448162/determine-device-iphone-ipod-touch-with-iphone-sdk
-   7） 获取当前手机号
+      http://stackoverflow.com/questions/448162/determine-device-iphone-ipod-touch-with-iphone-sdk
+       
+7） 获取当前手机号
      extern NSString* CTSettingCopyMyPhoneNumber();
-
     +(NSString *) phoneNumber {
        NSString *phone = CTSettingCopyMyPhoneNumber();
        return phone;
     }
+    或
+    NSString *num = [[NSUserDefaults standardUserDefaults] stringForKey:@"SBFormattedPhoneNumber"];
+    
+8）在block里用到成员变量或self的，请主动使用__weak
+     __weak Class *weakSelf = self;
+     
