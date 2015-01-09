@@ -81,15 +81,16 @@
        
 6）系统版本号
    
-       if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
         // here you go with iOS 7
-       }
+    }
          
-      NSString *versionString = [[UIDevice currentDevice] systemVersion];
+    NSString *versionString = [[UIDevice currentDevice] systemVersion];
         
-      http://stackoverflow.com/questions/448162/determine-device-iphone-ipod-touch-with-iphone-sdk
+    http://stackoverflow.com/questions/448162/determine-device-iphone-ipod-touch-with-iphone-sdk
        
 7） 获取当前手机号
+
      extern NSString* CTSettingCopyMyPhoneNumber();
     +(NSString *) phoneNumber {
        NSString *phone = CTSettingCopyMyPhoneNumber();
@@ -99,5 +100,33 @@
     NSString *num = [[NSUserDefaults standardUserDefaults] stringForKey:@"SBFormattedPhoneNumber"];
     
 8）在block里用到成员变量或self的，请主动使用__weak
+
      __weak Class *weakSelf = self;
+     但很多时候你不能避免在 Block 中使用 self,在 ARC 以前,你可以使用以下 技巧:
+     __block DetailViewController *blockSelf = self;
+     self.animatedView.block = ^(CGContextRef context, CGRect rect, CFTimeInterval totalTime, CFTimeInterval deltaTime)
+     {
+     }
+     __block 关键字表示 Block 不 retain 这个变量,因此可以使用 blockSelf.artistName 来访问 artistName 属性,而 Block 也不会捕获 self 对 象。
+     
+     不过 ARC 中不能使用这个方法,因为变量默认是 strong 引用,即使标记为 __block 也仍然是 strong 类型的引用。这时候__block 的唯一功能是允许你修改 已捕获的变量(没有__block 则变量是只读的)。
+     ARC 的解决办法是使用 __weak 变量:
+     
+     __weak DetailViewController *weakSelf = self;
+     self.animatedView.block = ^(CGContextRef context, CGRect rect, CFTimeInterval totalTime, CFTimeInterval deltaTime)
+     {
+         DetailViewController *strongSelf = weakSelf;
+         if (strongSelf != nil)
+         {
+         };
+    }
+    weakSelf 变量引用了 self,但不会进行 retain。我们让 Block 捕获 weakSelf 而不是 self,因此不存在所有权回环。但是我们在 Block 中不能直接使用 weakSelf,因为这是一个 weak 指针,当 DetailViewController 释放时它会自动 变成 nil。虽然向 nil 发送 message 是合法的,我们在 Block 中仍然检查了对象 是否存在。这里还有一个技巧,我们临时把 weakSelf 转换为 strong 类型的引 用 strongSelf,这样我们在使用 strongSelf 的时候,可以确保 DetailViewController 不会被其它人释放掉!
+
+
+
+
+
+
+
+
      
