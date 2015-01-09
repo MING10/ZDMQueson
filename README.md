@@ -122,6 +122,25 @@
     }
     weakSelf 变量引用了 self,但不会进行 retain。我们让 Block 捕获 weakSelf 而不是 self,因此不存在所有权回环。但是我们在 Block 中不能直接使用 weakSelf,因为这是一个 weak 指针,当 DetailViewController 释放时它会自动 变成 nil。虽然向 nil 发送 message 是合法的,我们在 Block 中仍然检查了对象 是否存在。这里还有一个技巧,我们临时把 weakSelf 转换为 strong 类型的引 用 strongSelf,这样我们在使用 strongSelf 的时候,可以确保 DetailViewController 不会被其它人释放掉!
 
+9）屏幕亮度
+     [[UIApplication sharedApplication] setIdleTimerDisabled:YES ] ;
+     设置为YES保持屏幕常亮.
+     [[UIScreen mainScreen]setBrightness:0.5f];       
+     取值范围从0.0到1.0
+     
+10）更改图片尺寸
+     + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+        //UIGraphicsBeginImageContext(newSize);
+        // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
+        // Pass 1.0 to force exact pixel size.
+        UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+        [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();    
+        UIGraphicsEndImageContext();
+        return newImage;
+     }
+     
+
 
 
 
