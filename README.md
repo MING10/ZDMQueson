@@ -18,25 +18,20 @@
     
    已经不管用了。而要在viewDidLoad中加入已下代码
 
-   if ([self.myCardTableView respondsToSelector:@selector(setLayoutMargins:)]) {
-        
+     if ([self.myCardTableView respondsToSelector:@selector(setLayoutMargins:)]) {
         [self.myCardTableView setLayoutMargins:UIEdgeInsetsZero];
-        
-    }
-    
-   并且加入UITableView的代理方法
-￼
-   - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-   {
-      if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-          [cell setSeparatorInset:UIEdgeInsetsZero];
-      }
-    
-    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-        [cell setLayoutMargins:UIEdgeInsetsZero];
-    }
-    
-   }
+     }
+     
+    并且加入UITableView的代理方法
+      - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath   *)indexPath
+     {
+         if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+             [cell setSeparatorInset:UIEdgeInsetsZero];
+         }
+         if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+             [cell setLayoutMargins:UIEdgeInsetsZero];
+         }
+     }
 
 4）判断设备类型
 
