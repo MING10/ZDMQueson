@@ -12,8 +12,7 @@
 3）iOS8中UITableVIew分割线短的问题
 
     在iOS8中会发现分割线默认是没有全部显示的，在iOS7中适用的代码
-
-   if ([self.myCardTableView respondsToSelector:@selector(separatorInset)]) {
+    if ([self.myCardTableView respondsToSelector:@selector(separatorInset)]) {
         self.myCardTableView.separatorInset = UIEdgeInsetsZero;
     }
     
@@ -42,7 +41,6 @@
 4）判断设备类型
 
     CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
-
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
     {
         if (iOSDeviceScreenSize.width > 568 || // for iOS devices
@@ -70,23 +68,22 @@
         }
     }
     else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
-    {   // The iOS device = iPad
-
+    {  
+    // The iOS device = iPad
         NSLog(@"loaded iPad Storyboard");
     }
     
 5）base64
      
-       http://stackoverflow.com/questions/392464/how-do-i-do-base64-encoding-on-iphone-sdk
+     http://stackoverflow.com/questions/392464/how-do-i-do-base64-encoding-on-iphone-sdk
        
 6）系统版本号
-   
+
     if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
         // here you go with iOS 7
     }
-         
     NSString *versionString = [[UIDevice currentDevice] systemVersion];
-        
+    
     http://stackoverflow.com/questions/448162/determine-device-iphone-ipod-touch-with-iphone-sdk
        
 7） 获取当前手机号
@@ -123,12 +120,14 @@
     weakSelf 变量引用了 self,但不会进行 retain。我们让 Block 捕获 weakSelf 而不是 self,因此不存在所有权回环。但是我们在 Block 中不能直接使用 weakSelf,因为这是一个 weak 指针,当 DetailViewController 释放时它会自动 变成 nil。虽然向 nil 发送 message 是合法的,我们在 Block 中仍然检查了对象 是否存在。这里还有一个技巧,我们临时把 weakSelf 转换为 strong 类型的引 用 strongSelf,这样我们在使用 strongSelf 的时候,可以确保 DetailViewController 不会被其它人释放掉!
 
 9）屏幕亮度
+
      [[UIApplication sharedApplication] setIdleTimerDisabled:YES ] ;
      设置为YES保持屏幕常亮.
      [[UIScreen mainScreen]setBrightness:0.5f];       
      取值范围从0.0到1.0
      
 10）更改图片尺寸
+
      + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
         //UIGraphicsBeginImageContext(newSize);
         // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
@@ -140,7 +139,21 @@
         return newImage;
      }
      
+11）获取UIView的相关UIViewController
 
+     @implementation UIView (AppNameAdditions)
+     - (UIViewController *)appName_viewController {
+        // Finds the view's view controller.
+        // Take the view controller class object here and avoid sending the same message iteratively unnecessarily.
+        // Traverse responder chain. Return first found view controller, which will be the view's view controller.
+         UIResponder *responder = self;
+         while ((responder = [responder nextResponder]))
+             if ([responder isKindOfClass: [UIViewController class]])
+             return (UIViewController *)responder;
+             // If the view controller isn't found, return nil.
+         return nil;
+     }
+     @end
 
 
 
