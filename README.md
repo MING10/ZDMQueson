@@ -193,6 +193,10 @@
      dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
           // 汇总结果
      });
+13）UIWebView更改背景颜色
+
+      _webview.backgroundColor = self.view.backgroundColor;
+        _webview.opaque = NO;
 
 
 
