@@ -197,10 +197,18 @@
 
       _webview.backgroundColor = self.view.backgroundColor;
         _webview.opaque = NO;
+14) NSInterger适配bit64
 
-
-
-
-
-
+     NSInteger i = ...;
+     NSLog(@"%ld", (long)i);
+     
+     #if __LP64__
+     #define NSI "ld"
+     #define NSU "lu"
+     #else
+     #define NSI "d"
+     #define NSU "u"
+     #endif
+     
+     NSLog(@"i=%"NSI, i);
      
