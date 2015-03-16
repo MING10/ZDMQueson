@@ -1,0 +1,16 @@
+ oc中高效的一些方法
+
+
+1、枚举类型：swift中用枚举类型时，不要加default分支，避免添加新的枚举时不提示警告。
+
+2、常量类型：尽量少用#define，采用 以下方法； 
+   1)static const NSString *kTime = @"time";
+   2)//.h中   extern NSString *const kTime;
+     //.m中   NSString *const kTime = @"time";
+ 
+3、常见类型尽量用字面常量。
+   NSNumeber * number = @1;
+   NSArray * array = @[@"a",@"b"];
+   NSDictionary *dict = @{@"key1":@"value1",@"key2":@"value2"};
+   
+4、尽量少引用头文件，避免交叉引入和编译内容过多。
