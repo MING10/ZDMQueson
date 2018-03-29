@@ -22,7 +22,8 @@
         [self.myCardTableView setLayoutMargins:UIEdgeInsetsZero];
      }
 
-    并且加入UITableView的代理方法
+   并且加入UITableView的代理方法
+   
       - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath   *)indexPath
      {
          if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
@@ -33,6 +34,7 @@
          }
      }
 4）判断设备类型
+
     CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
     {
@@ -65,6 +67,7 @@
      http://stackoverflow.com/questions/392464/how-do-i-do-base64-encoding-on-iphone-sdk
        
 6）系统版本号
+
     if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
         // here you go with iOS 7
     }
@@ -73,6 +76,7 @@
     http://stackoverflow.com/questions/448162/determine-device-iphone-ipod-touch-with-iphone-sdk
        
 7） 获取当前手机号
+
      extern NSString* CTSettingCopyMyPhoneNumber();
     +(NSString *) phoneNumber {
        NSString *phone = CTSettingCopyMyPhoneNumber();
@@ -82,6 +86,7 @@
     NSString *num = [[NSUserDefaults standardUserDefaults] stringForKey:@"SBFormattedPhoneNumber"];
     
 8）在block里用到成员变量或self的，请主动使用__weak
+
      __weak Class *weakSelf = self;
      但很多时候你不能避免在 Block 中使用 self,在 ARC 以前,你可以使用以下 技巧:
      __block DetailViewController *blockSelf = self;
@@ -103,12 +108,14 @@
     }
     weakSelf 变量引用了 self,但不会进行 retain。我们让 Block 捕获 weakSelf 而不是 self,因此不存在所有权回环。但是我们在 Block 中不能直接使用 weakSelf,因为这是一个 weak 指针,当 DetailViewController 释放时它会自动 变成 nil。虽然向 nil 发送 message 是合法的,我们在 Block 中仍然检查了对象 是否存在。这里还有一个技巧,我们临时把 weakSelf 转换为 strong 类型的引 用 strongSelf,这样我们在使用 strongSelf 的时候,可以确保 DetailViewController 不会被其它人释放掉!
 9）屏幕亮度
+
      [[UIApplication sharedApplication] setIdleTimerDisabled:YES ] ;
      设置为YES保持屏幕常亮.
      [[UIScreen mainScreen]setBrightness:0.5f];       
      取值范围从0.0到1.0
      
 10）更改图片尺寸
+
      + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
         //UIGraphicsBeginImageContext(newSize);
         // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
@@ -121,6 +128,7 @@
      }
      
 11）获取UIView的相关UIViewController
+
      @implementation UIView (AppNameAdditions)
      - (UIViewController *)appName_viewController {
         // Finds the view's view controller.
@@ -135,6 +143,7 @@
      }
      @end
 12）GCD的用法
+
       //  后台执行：
       dispatch_async(dispatch_get_global_queue(0, 0), ^{
           // something
@@ -177,12 +186,13 @@
           // 汇总结果
      });
 13）UIWebView更改背景颜色
+
       _webview.backgroundColor = self.view.backgroundColor;
-        _webview.opaque = NO;
-14) NSInterger适配bit64
+      _webview.opaque = NO;
+14）NSInterger适配bit64
+
      NSInteger i = ...;
      NSLog(@"%ld", (long)i);
-     
      #if __LP64__
      #define NSI "ld"
      #define NSU "lu"
