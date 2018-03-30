@@ -203,3 +203,12 @@
 15）RAC指南
 
     https://www.jianshu.com/p/87ef6720a096
+16）契合设计提供的行高
+
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.lineSpacing = 10 - (label.font.lineHeight - label.font.pointSize);
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    [attributes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
+    label.attributedText = [[NSAttributedString alloc] initWithString:label.text attributes:attributes];
+
+
